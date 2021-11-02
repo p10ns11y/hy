@@ -3,22 +3,10 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-const argv = yargs(hideBin(process.argv))
-  .strict()
+yargs(hideBin(process.argv))
+  .scriptName('hy')
+  .usage('$0 [cmd] [args]')
+  .strictCommands()
+  .strictOptions()
   .alias({ h: 'help' })
-  .option('t', {
-    alias: 'teach',
-    describe: 'Display step by step git cli commands.',
-    type: 'boolean',
-    demandOption: false,
-  })
-  .option('d', {
-    alias: 'do',
-    describe:
-      'Display step by step git cli commands and run them in that order.',
-    type: 'boolean',
-    demandOption: false,
-    default: true,
-  }).argv;
-
-console.log(argv);
+  .commandDir('commands').argv;
