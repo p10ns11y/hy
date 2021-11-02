@@ -20,5 +20,6 @@ function handler(argv) {
         console.log('Running: git rebase main\n');
         (0, utils_1.spawnSync)('git rebase main');
     }
+    process.exit(0);
 }
 exports.handler = handler;

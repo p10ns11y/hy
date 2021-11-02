@@ -27,4 +27,6 @@ export function handler(argv: Arguments<Options>) {
     console.log('Running: git rebase main\n');
     spawnSync('git rebase main');
   }
+
+  process.exit(0);
 }
