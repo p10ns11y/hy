@@ -1,10 +1,10 @@
 {
-  "name": "hy",
+  "name": "@p10ns11y/hy",
   "version": "1.0.0",
   "description": "Git cli wrapper with natural language processing",
   "main": "./bin/index.js",
   "bin": {
-    "hy": "./bin/index.js"
+    "hy": "bin/index.js"
   },
   "scripts": {
     "build": "tsc"
@@ -24,5 +24,13 @@
   },
   "dependencies": {
     "yargs": "^17.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p10ns11y/hy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/p10ns11y/hy/issues"
+  },
+  "homepage": "https://github.com/p10ns11y/hy#readme"
 }
