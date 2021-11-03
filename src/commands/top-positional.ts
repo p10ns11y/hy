@@ -1,4 +1,5 @@
 import type { Arguments, Argv } from 'yargs';
+import { getDefaultBranch } from '../git-info';
 import { spawnSync } from '../utils';
 
 type Options = {
@@ -12,21 +13,30 @@ export function builder(yargs: Argv<Options>) {
   yargs.positional('action', { type: 'string', demandOption: true });
 }
 
-export function handler(argv: Arguments<Options>) {
+export async function handler(argv: Arguments<Options>) {
   const { action } = argv;
 
+  const defaultBranch = await getDefaultBranch();
+
   if (action?.includes('rebase')) {
-    console.log('Running: git checkout main\n');
-    spawnSync('git checkout main');
+    const steps = [
+      `git checkout ${defaultBranch}`,
+      `git pull --rebase`,
+      `git checkout -`,
+      `git rebase ${defaultBranch}`,
+    ];
 
-    console.log('Running: git pull --rebase\n');
-    spawnSync('git pull --rebase');
+    console.log(`Running: ${steps[0]}\n`);
+    spawnSync(steps[0]);
 
-    console.log('Running: git checkout -\n');
-    spawnSync('git checkout -');
+    console.log(`Running: ${steps[1]}\n`);
+    spawnSync(steps[1]);
 
-    console.log('Running: git rebase main\n');
-    spawnSync('git rebase main');
+    console.log(`Running: ${steps[2]}\n`);
+    spawnSync(steps[2]);
+
+    console.log(`Running: ${steps[3]}\n`);
+    spawnSync(steps[3]);
   }
 
   process.exit(0);
