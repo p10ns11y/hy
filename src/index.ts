@@ -5,8 +5,9 @@ import { hideBin } from 'yargs/helpers';
 
 yargs(hideBin(process.argv))
   .scriptName('hy')
-  .usage('$0 [cmd] [args]')
+  .usage('$0 <action>')
   .strictCommands()
   .strictOptions()
   .alias({ h: 'help' })
-  .commandDir('commands').argv;
+  .commandDir('commands')
+  .showHelp('log').argv;

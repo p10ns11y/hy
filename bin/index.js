@@ -8,8 +8,9 @@ const yargs_1 = __importDefault(require("yargs"));
 const helpers_1 = require("yargs/helpers");
 (0, yargs_1.default)((0, helpers_1.hideBin)(process.argv))
     .scriptName('hy')
-    .usage('$0 [cmd] [args]')
+    .usage('$0 <action>')
     .strictCommands()
     .strictOptions()
     .alias({ h: 'help' })
-    .commandDir('commands').argv;
+    .commandDir('commands')
+    .showHelp('log').argv;
