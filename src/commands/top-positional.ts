@@ -1,12 +1,12 @@
 import type { Arguments, Argv } from 'yargs';
-import { getDefaultBranch } from '../git-info';
-import { spawnSync } from '../utils';
+import { getDefaultBranch, gracefulPush } from '../git';
+import { run } from '../run';
 
 type Options = {
   action: string;
 };
 
-export const command: string = '$0 [action]';
+export const command: string = '$0 <action>';
 export const desc: string = 'Run git cli commands and show the steps';
 
 export function builder(yargs: Argv<Options>) {
@@ -18,25 +18,19 @@ export async function handler(argv: Arguments<Options>) {
 
   const defaultBranch = await getDefaultBranch();
 
-  if (action?.includes('rebase')) {
-    const steps = [
+  if (action?.match(/rebase/g)) {
+    const steps: Array<string | Function> = [
       `git checkout ${defaultBranch}`,
       `git pull --rebase`,
       `git checkout -`,
       `git rebase ${defaultBranch}`,
     ];
 
-    console.log(`Running: ${steps[0]}\n`);
-    spawnSync(steps[0]);
+    if (action.match(/push|then push/g)) {
+      steps.push(() => gracefulPush({ withForce: true }));
+    }
 
-    console.log(`Running: ${steps[1]}\n`);
-    spawnSync(steps[1]);
-
-    console.log(`Running: ${steps[2]}\n`);
-    spawnSync(steps[2]);
-
-    console.log(`Running: ${steps[3]}\n`);
-    spawnSync(steps[3]);
+    steps.forEach((step) => run(step));
   }
 
   process.exit(0);

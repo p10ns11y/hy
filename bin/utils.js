@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.spawnSync = void 0;
-const child_process_1 = __importDefault(require("child_process"));
+const node_child_process_1 = __importDefault(require("node:child_process"));
 function spawnSync(command, options = {}) {
-    const result = child_process_1.default.spawnSync(command, {
+    const result = node_child_process_1.default.spawnSync(command, {
         shell: true,
         stdio: 'pipe',
         ...options,
